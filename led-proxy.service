@@ -1,0 +1,23 @@
+[Unit]
+Description=Scroll-lock LED proxy service
+Documentation=https://github.com/elad661/led-proxy
+
+
+[Service]
+Type=dbus
+BusName=com.eladalfassa.LedProxy
+ExecStart=/usr/sbin/ledproxy
+
+# Lockdown
+ProtectSystem=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectKernelModules=true
+PrivateTmp=true
+RestrictAddressFamilies=AF_UNIX AF_LOCAL AF_NETLINK
+MemoryDenyWriteExecute=true
+RestrictRealtime=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
