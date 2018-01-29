@@ -43,7 +43,4 @@ it's much safer to have a small service that exposes this over DBus instead.
 
 TODO
 ----
-This is a very basic implementation. It should be improved to support more than
-one LED (right now it'll just use the first scroll-lock LED it finds, which might not actually exist, and may not be the one you want).
-
-It would also make sense to use a proper build system (like meson), and not just a basic shell script.
+It might make sense to use a proper build system (like meson), and not just a basic shell script.

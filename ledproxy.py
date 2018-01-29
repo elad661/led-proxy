@@ -35,33 +35,33 @@ class LedService(object):
         </interface>
     </node>
     """
-
-    def get_led_path(self):
-        """Get path to the first available scroll-lock LED"""
+    def get_leds(self):
+        """Get paths to the all available scroll-lock LEDs"""
+        # note: we call get_leds on every call and not cache it, to support
+        # hotplugging of keyboards
         for led in os.listdir("/sys/class/leds"):
             if 'scrolllock' in led:
-                return f"/sys/class/leds/{led}"
-        return False
+                yield f"/sys/class/leds/{led}/brightness"
 
     def Toggle(self):
         """Toggle LED"""
-        path = self.get_led_path()
-        with open(os.path.join(path, "brightness"), "r+") as f:
-            current_state = bool(int(f.read()))
-            f.seek(0)
-            f.write(str(int(not current_state)))
+        for led in self.get_leds():
+            with open(led, "r+") as f:
+                current_state = f.read(1)
+                f.seek(0)
+                f.write('0' if current_state == '1' else '1')
 
     def TurnOn(self):
         """Turn LED on"""
-        path = self.get_led_path()
-        with open(os.path.join(path, "brightness"), "r+") as f:
-            f.write('1')
+        for led in self.get_leds():
+            with open(led, "r+") as f:
+                f.write('1')
 
     def TurnOff(self):
         """Turn LED off"""
-        path = self.get_led_path()
-        with open(os.path.join(path, "brightness"), "r+") as f:
-            f.write('0')
+        for led in self.get_leds():
+            with open(led, "r+") as f:
+                f.write('0')
 
 
 def main():
