@@ -28,6 +28,10 @@ dbus-send --system --type=method_call --dest=com.eladalfassa.LedProxy /com/elada
 # Turn LED on
 #
 dbus-send --system --type=method_call --dest=com.eladalfassa.LedProxy /com/eladalfassa/LedProxy com.eladalfassa.LedProxy.TurnOn
+#
+# Blink LED (specify rate in miliseconds, minimum 50). Will stop blinking when any other method is called.
+#
+dbus-send --system --type=method_call --dest=com.eladalfassa.LedProxy /com/eladalfassa/LedProxy com.eladalfassa.LedProxy.Blink int32:500
 ```
 
 Why?
